@@ -1,0 +1,7 @@
+1、添加项目到githup
+    1)echo "# record" >> README.md
+   2) git init
+    3)git add README.md
+    4)git commit -m "first commit"
+    5)git remote add origin https://github.com/CytFree/record.git
+   6) git push -u origin master
