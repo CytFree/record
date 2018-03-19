@@ -1,0 +1,37 @@
+static{
+	configuration = new Configuration();
+	configuration.setDefaultEncoding("UTF-8");
+	configuration.setClassForTemplateLoading(PoiFileUtil.class, "/protocol_templet");
+}
+
+/**
+* 将内容写入指定流中
+*/
+public static boolean createDoc(OutputStream out, Map<?,?> dataMap){
+   try{
+	   Template t = configuration.getTemplate("KJT_CONTRACT_FILE_TEMPLET.ftl");
+	   //这个地方不能使用FileWriter因为需要指定编码类型否则声场的word文档会因为有无法识别的编码而无法打开
+	   Writer w = new OutputStreamWriter(out,"utf-8");
+	   t.process(dataMap,w);
+	   w.close();
+	   return true;
+   }catch(Exception e){
+	   throw new RuntimeException("freemarker 生产word失败：", e);
+   }
+}
+
+/**
+* 根据模板文件，生成内容
+*
+* @param templateFile
+* @param dataMap
+* @return
+*/
+public static String getTemplateContent(String templateFile, Map<?, ?> dataMap) {
+   try {
+	   Template t = configuration.getTemplate(templateFile);
+	   return FreeMarkerTemplateUtils.processTemplateIntoString(t, dataMap);
+   } catch (Exception e) {
+	   throw new BizServiceException("FreeMarker 根据模板文件【{"+ templateFile +"}】 生成内容失败：" + e);
+   }
+}
