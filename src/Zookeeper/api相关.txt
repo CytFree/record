@@ -1,0 +1,45 @@
+一、客户端应该遵循以步骤，与ZooKeeper集合进行清晰和干净的交互。
+	连接到ZooKeeper集合。ZooKeeper集合为客户端分配会话ID。
+	定期向服务器发送心跳。否则，ZooKeeper集合将过期会话ID，客户端需要重新连接。
+	只要会话ID处于活动状态，就可以获取/设置znode。
+	所有任务完成后，断开与ZooKeeper集合的连接。如果客户端长时间不活动，则ZooKeeper集合将自动断开客户端。
+
+	1、连接到ZooKeeper集合
+		ZooKeeper类通过其构造函数提供connect功能。构造函数的签名如下 :
+		TODO： ZooKeeper(String connectionString, int sessionTimeout, Watcher watcher)
+			connectionString - ZooKeeper集合主机。
+			sessionTimeout - 会话超时（以毫秒为单位）。
+			watcher - 实现“监视器”界面的对象。ZooKeeper集合通过监视器对象返回连接状态。
+
+	2、创建Znode
+    ZooKeeper类提供了在ZooKeeper集合中创建一个新的znode的create方法。 create 方法的签名如下：
+    TODO： create(String path, byte[] data, List<ACL> acl, CreateMode createMode)
+		path - Znode路径。例如，/myapp1，/myapp2，/myapp1/mydata1，myapp2/mydata1/myanothersubdata
+		data - 要存储在指定znode路径中的数据
+		acl - 要创建的节点的访问控制列表。ZooKeeper API提供了一个静态接口 ZooDefs.Ids
+				来获取一些基本的acl列表。例如，ZooDefs.Ids.OPEN_ACL_UNSAFE返回打开znode的acl列表。
+		createMode - 节点的类型，即临时，顺序或两者。这是一个枚举。
+
+	3、ZooKeeper类提供了 exists 方法来检查znode的存在。如果指定的znode存在，则返回一个znode的元数据。exists方法的签名如下：
+	TODO exists(String path, boolean watcher)
+		path- Znode路径
+		watcher - 布尔值，用于指定是否监视指定的znode
+
+	4、setData方法
+     ZooKeeper类提供 setData 方法来修改指定znode中附加的数据。 setData 方法的签名如下：
+    TODO : setData(String path, byte[] data, int version)
+		path- Znode路径
+		data - 要存储在指定znode路径中的数据。
+		version- znode的当前版本。每当数据更改时，ZooKeeper会更新znode的版本号。
+
+	5、getChildren方法
+    ZooKeeper类提供 getChildren 方法来获取特定znode的所有子节点。 getChildren 方法的签名如下：
+    TODO : getChildren(String path, Watcher watcher)
+    	path - Znode路径。
+    	watcher - 监视器类型的回调函数。当指定的znode被删除或znode下的子节点被创建/删除时，ZooKeeper集合将进行通知。这是一次性通知。
+
+	6、删除Znode
+	ZooKeeper类提供了 delete 方法来删除指定的znode。 delete 方法的签名如下：
+	TODO : delete(String path, int version)
+		path - Znode路径。
+		version - znode的当前版本。

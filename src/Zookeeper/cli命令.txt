@@ -1,0 +1,50 @@
+1、创建znode
+	1）用给定的路径创建一个znode。flag参数指定创建的znode是临时的，持久的还是顺序的。默认情况下，所有znode都是持久的。
+    2）当会话过期或客户端断开连接时，临时节点（flag：-e）将被自动删除。
+    3）顺序节点保证znode路径将是唯一的。
+    	ZooKeeper集合将向znode路径填充10位序列号。例如，znode路径 /myapp 将转换为/myapp0000000001，
+    	下一个序列号将为/myapp0000000002。如果没有指定flag，则znode被认为是持久的。
+	TODO 语法 ：create /path /data
+		例子：create /FirstZnode “Myfirstzookeeper-app"
+	TODO 要创建顺序节点，请添加flag：-s：create -s /path /data
+		例子：create -s /FirstZnode “My Second zookeeper-app"
+	TODO 要创建临时节点，请添加flag：-e：create -e /path /data
+			例子：create  -e /FirstZnode "tmp Znode"
+
+2、获取数据
+	它返回znode的关联数据和指定znode的元数据。你将获得信息，例如上次修改数据的时间，
+	修改的位置以及数据的相关信息。此CLI还用于分配监视器以显示数据相关的通知。
+	TODO 语法：get /path
+		例子：get /FirstZnode
+	TODO 如果要访问顺序节点，则要输入完整路径
+		例子：get /FirstZnode0000000001
+
+3、监视znode的变化
+	当指定的znode或znode的子数据更改时，监视器会显示通知。你只能在 get 命令中设置watch。
+	TODO 语法  get /path [watch] 1
+    	示例 get /FirstZnode 1
+
+4、设置数据
+	TODO 语法：set /path "newData"
+	    	示例 set /FirstZnode "change data"
+	如果Znode设置了watch，则会打印监控信息
+
+5、创建znode的子节点
+	创建子节点类似于创建新的znode。唯一的区别是，子znode的路径也将具有父路径。
+    TODO 语法 create /parent/path/subnode/path /data
+    	示例 create /FirstZnode/Child1 "firstchildren"
+
+6、列出znode的子节点
+	TODO 语法 ： ls /path
+	示例  ls /FirstZnode
+
+7、检查状态
+	状态描述指定的znode的元数据。它包含时间戳，版本号，ACL，数据长度和子znode等细项。
+    TODO 语法 stat /path
+    示例  stat /FirstZnode
+
+8、移除/删除znode
+	移除指定的znode并递归其所有子节点。只有在这样的znode可用的情况下才会发生。
+   TODO 语法  rmr /path
+    示例 rmr /FirstZnode
+   TODO 删除(delete /path) 命令类似于 remove 命令，除了它只适用于没有子节点的znode。
