@@ -1,0 +1,1 @@
+JVM启动参数设置： -Xms256M -Xmx2024M -XX:PermSize=256m -XX:MaxPermSize=312m -Dfile.encoding=UTF-8
