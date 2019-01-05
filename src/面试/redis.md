@@ -46,7 +46,7 @@
 
 ##### sorted SET操作命令
 
->zadd zrem zrange zrevrange
+>zadd zrem zrange zrevrange zcard
 
 >zrangebyrank zrangebyscore
 
