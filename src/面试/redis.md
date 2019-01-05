@@ -4,6 +4,10 @@
 
 >expire 过期时间 ttl 剩余过期时间 type key 类型
 
+>move key table 将key移动到指定数据库
+
+>multi 开启事物  exec 提交事物  discard 回滚
+
 ##### 字符串操作命令
 >get set getset del
 
